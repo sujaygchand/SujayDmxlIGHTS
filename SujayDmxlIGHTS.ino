@@ -6,8 +6,10 @@ const byte SW_PIN = 3;
 boolean swCurrent = LOW;
 boolean swPrevious = LOW;
 
+byte ranNum;
+
 int configuration = 0;
-int numConfigurations = 7;
+int numConfigurations = 8;
 
 boolean switchState = false;
 
@@ -37,14 +39,14 @@ void loop() {
   //Serial.print("swPrevious: ");
   //Serial.println(swPrevious);
 
-//  if (digitalRead(SW_PIN) == HIGH)
-//    Serial.println("wgfdfsvd erfdvsdvesdvxczg");
-    if (swPrevious == LOW && swCurrent == HIGH) {
-      configuration++;
-      switchState = true;
-      Serial.print("Here: ");
-      Serial.println(switchState);
-    }
+  //  if (digitalRead(SW_PIN) == HIGH)
+  //    Serial.println("wgfdfsvd erfdvsdvesdvxczg");
+  if (swPrevious == LOW && swCurrent == HIGH) {
+    configuration++;
+    switchState = true;
+    Serial.print("Here: ");
+    Serial.println(switchState);
+  }
   else {
     switchState = false;
   }
@@ -82,7 +84,15 @@ void loop() {
       breathingLightEffect();
       break;
     case 7:
-      setDmxLights(255, 125, 125, 0, 0, 0);
+      ranNum = random(6);
+      pulsingLightEffect(ranNum);
+      break;
+      case 8 :
+      /*
+       * insert disco mode here
+       */
+      
+      //setDmxLights(255, 255, 0, 0, 0, 0); for testing
       break;
 
   }
