@@ -91,7 +91,8 @@ void loop() {
       /*
        * insert disco mode here
        */
-      
+
+      discoLights();
       //setDmxLights(255, 255, 0, 0, 0, 0); for testing
       break;
 

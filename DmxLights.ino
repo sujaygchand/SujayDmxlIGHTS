@@ -220,27 +220,69 @@ void pulsingLightEffect(int randomNum) {
       }
     }
   }
-//
-//if(breakloop){
-//  configuration = 8
-//}
-  
+  //
+  //if(breakloop){
+  //  configuration = 8
+  //}
+
 }
 
 void discoLights() {
 
   boolean breakLoop = false;
+  boolean loopOneBreaker = false;
+  boolean loopTwoBreaker = true;
+  Serial.println("DISCO");
 
   while (!breakLoop) {
-    for (int fx1 = 0; fx1 > 255; fx1++) {
-      delay(50);
-      setDmxLights(255, 120, 20, 190, fx1, 0);
 
-      if (digitalRead(SW_PIN) == HIGH) {
-        breakLoop = true;
-        break;
+    if (digitalRead(SW_PIN) == HIGH) {
+      breakLoop = true;
+      loopOneBreaker = true;
+      break;
+    }
+    if (!loopOneBreaker) {
+      for (int fx2 = 0; fx2 < 255; fx2++) {
+        Serial.println(fx2);
+        setDmxLights(255, fx2, 20, 190, 0, fx2);
+        delay(25);
+
+        if (digitalRead(SW_PIN) == HIGH) {
+          breakLoop = true;
+          loopOneBreaker = true;
+          break;
+        }
+
+        if(fx2 == 255){
+          delay(25);
+          loopOneBreaker = true;
+          loopTwoBreaker = false;
+        }
       }
     }
+
+    if (!loopTwoBreaker) {
+      for (int fx2 = 255; fx2 < 0; fx2--) {
+        Serial.println(fx2);
+        setDmxLights(255, fx2, 20, 190, 0, fx2);
+        delay(25);
+
+        if (digitalRead(SW_PIN) == HIGH) {
+          breakLoop = true;
+          loopOneBreaker = true;
+          loopTwoBreaker = true;
+          break;
+        }
+
+        if(fx2 == 0){
+          delay(25);
+          loopOneBreaker = false;
+          loopTwoBreaker = true;
+        }
+        
+      }
+    }
+
   }
 }
 
